@@ -1,0 +1,24 @@
+{
+  "content_scripts": [
+    {
+      "js": [
+        "vidcontrol.js"
+      ],
+      "matches": [
+        "<all_urls>"
+      ]
+    }
+  ],
+  "default_locale": "en",
+  "description": "Control the default settings for <video> tags",
+  "manifest_version": 2,
+  "name": "VidControl",
+  "options_ui": {
+    "chrome_style": true,
+    "page": "options.html"
+  },
+  "permissions": [
+    "storage"
+  ],
+  "version": "0"
+}

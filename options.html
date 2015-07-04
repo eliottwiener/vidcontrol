@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>VidControl Options</title>
+	</head>
+	<body>
+		<p>
+			For instructions please see the <a href="manual.html">manual</a>.
+		</p>
+		<button id="add">Add new ruleset</button>
+		<button id="clear">Clear unsaved changes</button>
+		<button id="save">Save changes</button>
+		<span id="save_status"></span>
+		<table>
+			<thead>
+				<tr>
+					<th><a href="manual.html#regex">regex</a></th>
+					<th><a href="manual.html#controls">controls</a></th>
+					<th><a href="manual.html#autoplay">autoplay</a></th>
+					<th><a href="manual.html#mute">mute</a></th>
+					<th><a href="manual.html#loop">loop</a></th>
+					<th><a href="manual.html#preload">preload</a></th>
+					<th><a href="manual.html#priority">priority</a></th>
+				</tr>
+			</thead>
+			<tbody id="rulesets">
+			</tbody>
+		</table>
+		<script src="options.js"></script>
+	</body>
+</html>
