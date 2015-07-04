@@ -1,14 +1,8 @@
 var main = function(){
 	"use strict";
-	var next_row_index = 0;
-	var rulesets_table = document.getElementById("rulesets");
-	var save_button = document.getElementById("save");
-	save_button.addEventListener("click", function(){save();});
-	var save_status = document.getElementById("save_status");
-	var add_button = document.getElementById("add");
-	add_button.addEventListener("click", function(){add_row(default_ruleset)});
-	var clear_button = document.getElementById("clear");
-	clear_button.addEventListener("click", function(){load();});
+	document.getElementById("save_button").addEventListener("click", function(){save();});
+	document.getElementById("add_button").addEventListener("click", function(){add_row(default_ruleset, false);});
+	document.getElementById("clear_button").addEventListener("click", function(){load();});
 	var default_ruleset = {
 		"regex": ".*",
 		"controls": "page",
@@ -79,21 +73,11 @@ var main = function(){
 			return number_field;
 		},
 		"delete": function(){
-			var row_index = next_row_index;
 			var delete_button = document.createElement("button");
-			delete_button.addEventListener("click", function(){delete_row(row_index)});
+			delete_button.addEventListener("click", function(){delete_button.parentNode.parentNode.remove()});
 			delete_button.textContent = "Delete";
 			return delete_button;
 		}
-	}
-	var make_row_id = function(row_index){
-		var id = "row-" + row_index;
-		return id;
-	}
-	var delete_row = function(row_index){
-		var row = document.getElementById(make_row_id(row_index));
-		row.parentNode.removeChild(row);
-		next_row_index -= 1;
 	}
 	var row_order = [
 		"regex",
@@ -111,32 +95,41 @@ var main = function(){
 		"mute",
 		"loop",
 	]
-	var add_row = function(ruleset) {
+	var add_row = function(ruleset, from_load) {
+		var changed = function(){
+			tr.style.backgroundColor = "yellow";
+			save_status.textContent = "Unsaved changes";
+		}
 		var tr = document.createElement("tr");
-		tr.className = "ruleset-row";
-		tr.id = make_row_id(next_row_index);
 		row_order.forEach(function(i){
 			var td = document.createElement("td");
 			var element = element_creators[i](ruleset[i]);
+			var save_status = document.getElementById("save_status");
+			element.addEventListener("change", changed);
 			td.appendChild(element);
 			tr.appendChild(td);
 		});
-		rulesets_table.appendChild(tr);
-		next_row_index += 1;
+		if(!from_load){
+			changed();
+		}
+		document.getElementById("rulesets_table").appendChild(tr);
+	}
+	var extract_ruleset = function(row){
+		var ruleset = {};
+		row_order.forEach(function(r){
+			if(r != "delete"){
+				ruleset[r] = row.getElementsByClassName(r)[0].value;
+			}
+		});
+		return ruleset;
 	}
 	var extract_rulesets = function(){
-		var rows = document.getElementsByClassName("ruleset-row");
-		var extracted_rulesets = [];
+		var rulesets = [];
+		var rows = document.getElementById("rulesets_table").children;
 		for(var i = 0; i < rows.length; i++){
-			var row = {};
-			row_order.forEach(function(r){
-				if(r != "delete"){
-					row[r] = rows[i].getElementsByClassName(r)[0].value;
-				}
-			});
-			extracted_rulesets.push(row);
+			rulesets.push(extract_ruleset(rows[i]))
 		}
-		return extracted_rulesets;
+		return rulesets;
 	}
 	var save = function() {
 		var extracted_rulesets = extract_rulesets()
@@ -144,33 +137,37 @@ var main = function(){
 			chrome.storage.sync.set({
 				"rulesets": extracted_rulesets,
 			}, function() {
+				var save_status = document.getElementById("save_status");
 				save_status.textContent = "Changes saved.";
 				load();
 			});
 		}
 	}
 	var load = function() {
+		clear_rulesets_table();
 		chrome.storage.sync.get("rulesets", function(items) {
-			remove_all_children(rulesets_table);
-			next_row_index = 0;
 			if(items["rulesets"]){
 				items["rulesets"].forEach(function(ruleset){
-					add_row(ruleset);
+					add_row(ruleset, true);
 				});
 			}
+			var save_status = document.getElementById("save_status");
 			save_status.textContent = "Saved";
 		});
 	}
-	var remove_all_children = function(node){
-		while (node.firstChild) {
-			node.removeChild(node.firstChild);
+	var clear_rulesets_table = function(){
+		var rulesets_table = document.getElementById("rulesets_table");
+		while (rulesets_table.firstChild) {
+			rulesets_table.removeChild(rulesets_table.firstChild);
 		}
 	}
-	var validate_rulesets = function(rulesets){
-		for(var i = 0; i < rulesets.length; i++){
-			var row = document.getElementById(make_row_id(i))
+	var validate_rulesets = function(){
+		var rulesets_table = document.getElementById("rulesets_table");
+		for(var i = 0; i < rulesets_table.children.length; i++){
+			var row = rulesets_table.children[i];
+			var ruleset = extract_ruleset(row);
 			row.style.backgroundColor = "";
-			if(!valid_ruleset(rulesets[i])){
+			if(!valid_ruleset(ruleset)){
 				row.style.backgroundColor = "red";
 				return false;
 			}
@@ -201,6 +198,7 @@ var main = function(){
 		return true;
 	}
 	var invalid_ruleset_error = function(error){
+		var save_status = document.getElementById("save_status");
 		save_status.textContent = "Save failed due to invalid ruleset: " + error;
 	}
 	load();
