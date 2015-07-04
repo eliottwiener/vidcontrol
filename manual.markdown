@@ -27,7 +27,7 @@ To delete a ruleset, press the "Delete" button on its row.
 #### [regex](#regex)
 A [JavaScript regular expression](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions) that determines which pages the ruleset may apply to.
 #### [autoplay](#autoplay) [controls](#controls) [loop](#loop) [mute](#mute) [preload](#preload)
-These options merely control attributes of the &lt;video&gt;. Please reference [the descriptions of these options on the Mozilla Developer Network](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/video) for more details.
+These options merely control attributes of the &lt;video&gt;. Please reference [the descriptions of these options on the Mozilla Developer Network](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/video) for more details. Note that settings for the "preload" attribute will have a limited effect on videos in the DOM on page load, as they may have already loaded or started loading before VidControl is run.
 #### [priority](#priority)
 The priority associated with this ruleset. For a given page, the highest
 priority ruleset with a regex matching the page URL will be applied.
