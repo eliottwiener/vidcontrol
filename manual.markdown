@@ -6,7 +6,7 @@ any page, independent of the settings set by the page. VidControl makes changes 
 In the options menu for VidControl, you will see a table of "rulesets". These
 rulesets control *which* pages to make video-related attribute changes to, and
 *what* changes should be made to the videos on those pages. The highest
-priority ruleset that matches the page URL will be applied.
+priority ruleset that matches the page domain will be applied.
 ### Ruleset modification
 #### Saving rulesets
 Any changes to rulesets must be saved before they can take effect.
@@ -30,4 +30,4 @@ A [JavaScript regular expression](https://developer.mozilla.org/en-US/docs/Web/J
 These options merely control attributes of the &lt;video&gt;. Please reference [the descriptions of these options on the Mozilla Developer Network](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/video) for more details. Note that settings for the "preload" attribute will have a limited effect on videos in the DOM on page load, as they may have already loaded or started loading before VidControl is run.
 #### [priority](#priority)
 The priority associated with this ruleset. For a given page, the highest
-priority ruleset with a regex matching the page URL will be applied.
+priority ruleset with a regex matching the page domain will be applied.
