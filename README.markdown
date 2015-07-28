@@ -1,3 +1,20 @@
+<!--
+VidControl: a Chromium extension that provides advanced control over <video> tags
+Copyright (C) 2015 Eliott Wiener
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+-->
 # VidControl Manual
 ## Basic concept
 VidControl allows you to configure the attributes of &lt;video&gt; tags (AKA HTML5 video) on
@@ -31,3 +48,5 @@ These options merely control attributes of the &lt;video&gt;. Please reference [
 #### [priority](#priority)
 The priority associated with this ruleset. For a given page, the highest
 priority ruleset with a regex matching the page domain will be applied.
+## License
+Please see the included [license](LICENSE.html).
