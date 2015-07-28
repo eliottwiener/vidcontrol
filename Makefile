@@ -24,4 +24,4 @@ manifest: manifest.json
 clean:
 	rm -f manual.html vidcontrol.zip
 zip: clean manual manifest
-	zip vidcontrol *
+	zip -r vidcontrol *
