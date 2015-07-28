@@ -22,6 +22,6 @@ manifest: manifest.json
 	jq --monochrome-output --sort-keys --ascii-output . manifest.json > .clean_manifest.json
 	mv .clean_manifest.json manifest.json
 clean:
-	rm manual.html vidcontrol.zip
+	rm -f manual.html vidcontrol.zip
 zip: clean manual manifest
 	zip vidcontrol *
