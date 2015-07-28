@@ -13,8 +13,8 @@
 # 
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
-all: manual manifest
-manual: manual.markdown
+all: clean manual manifest zip
+manual: README.markdown
 	markdown README.markdown > manual.html
 manifest: manifest.json
 	#re-indent and sort manifest.json
@@ -22,4 +22,6 @@ manifest: manifest.json
 	jq --monochrome-output --sort-keys --ascii-output . manifest.json > .clean_manifest.json
 	mv .clean_manifest.json manifest.json
 clean:
-	rm manual.html
+	rm manual.html vidcontrol.zip
+zip: clean manual manifest
+	zip vidcontrol *
